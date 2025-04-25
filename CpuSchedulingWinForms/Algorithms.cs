@@ -11,7 +11,84 @@ namespace CpuSchedulingWinForms
     {
 
         //SRTF ALGORITHM
-        public static void srtfAlgorithm
+public static void srtfAlgorithm(string userInput)
+{
+    int np = Convert.ToInt32(userInput);
+
+    double[] arrival = new double[np];
+    double[] burst = new double[np];
+    double[] remaining = new double[np];
+    double[] start = new double[np];
+    double[] completion = new double[np];
+    bool[] isStarted = new bool[np];
+
+    double totalWaiting = 0.0, totalTurnaround = 0.0;
+
+    for (int i = 0; i < np; i++)
+    {
+        string aInput = Microsoft.VisualBasic.Interaction.InputBox("Enter arrival time: ",
+            "Arrival time for P" + (i + 1), "", -1, -1);
+        arrival[i] = Convert.ToDouble(aInput);
+
+        string bInput = Microsoft.VisualBasic.Interaction.InputBox("Enter burst time: ",
+            "Burst time for P" + (i + 1), "", -1, -1);
+        burst[i] = Convert.ToDouble(bInput);
+
+        remaining[i] = burst[i];
+        isStarted[i] = false;
+    }
+
+    int complete = 0;
+    double time = 0;
+
+    while (complete < np)
+    {
+        int idx = -1;
+        double min = double.MaxValue;
+
+        for (int i = 0; i < np; i++)
+        {
+            if (arrival[i] <= time && remaining[i] > 0 && remaining[i] < min)
+            {
+                min = remaining[i];
+                idx = i;
+            }
+        }
+
+        if (idx != -1)
+        {
+            if (!isStarted[idx])
+            {
+                start[idx] = time;
+                isStarted[idx] = true;
+            }
+
+            remaining[idx]--;
+            time++;
+
+            if (remaining[idx] == 0)
+            {
+                completion[idx] = time;
+                double turnaround = completion[idx] - arrival[idx];
+                double waiting = turnaround - burst[idx];
+                totalWaiting += waiting;
+                totalTurnaround += turnaround;
+
+                MessageBox.Show($"P{idx + 1} - Waiting: {waiting}, Turnaround: {turnaround}",
+                    "Process Metrics", MessageBoxButtons.OK);
+
+                complete++;
+            }
+        }
+        else
+        {
+            time++;
+        }
+    }
+
+    MessageBox.Show($"Average Waiting Time: {totalWaiting / np:F2}", "Average Waiting Time");
+    MessageBox.Show($"Average Turnaround Time: {totalTurnaround / np:F2}", "Average Turnaround Time");
+}
 
             
         public static void fcfsAlgorithm(string userInput)
