@@ -9,6 +9,11 @@ namespace CpuSchedulingWinForms
 {
     public static class Algorithms
     {
+
+        //SRTF ALGORITHM
+        public static void srtfAlgorithm
+
+            
         public static void fcfsAlgorithm(string userInput)
         {
             int np = Convert.ToInt16(userInput);
