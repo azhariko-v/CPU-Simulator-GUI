@@ -1,6 +1,11 @@
 ## CPU-Simulator GUI
 A grahical user interface application with these components: CPU Simulator, QR code and Barcode Generator.
 
+Modifications made by azhariko-v:
+
+File name: Algorithms.cs :
+Shortest remaining time first and multi-level feedback queue algorithms implemented 
+Structural accomodation of example testing processes and preformance metric calculation
 
 ## Usage
 
